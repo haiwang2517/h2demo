@@ -1,0 +1,2 @@
+INSERT INTO USERS (id, name, code ,num, type, last_date) VALUES (1, 'tet','dfsd', 0 ,2, '2018-07-02 21:21:21');
+INSERT INTO USERS(ID,CODE,LAST_DATE,NAME,NUM,TYPE) VALUES (2, 'XXA' ,'2018-08-01 32:11:22' ,'海银龙', 1 ,5);
