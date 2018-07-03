@@ -13,7 +13,14 @@ public class UsersEntity {
     private String lastDate;
 
     @Id
-    @Column(name = "ID", nullable = false, precision = 32767)
+    @GeneratedValue(strategy = GenerationType.TABLE, generator="user_gen")
+    @TableGenerator(name = "user_gen",
+            table="bk_seq",
+            pkColumnName="seq_name",
+            valueColumnName="value",
+            pkColumnValue="seq_user",
+            allocationSize=1
+    )
     public Long getId() {
         return id;
     }

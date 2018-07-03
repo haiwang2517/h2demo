@@ -18,6 +18,8 @@
         <mapping class="com.one.demo.entity.ApplyEntity"/>
         <mapping class="com.one.demo.entity.BooksEntity"/>
         <mapping class="com.one.demo.entity.UsersEntity"/>
+        <mapping class="com.one.demo.entity.ApplyTaskEntity"/>
+        <mapping class="com.one.demo.entity.MessagesEntity"/>
 
     </session-factory>
 </hibernate-configuration>

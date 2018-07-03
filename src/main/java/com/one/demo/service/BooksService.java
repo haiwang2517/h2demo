@@ -17,13 +17,13 @@ public interface BooksService {
      * 获取所有图书
      * @return
      */
-    List<UsersEntity> findAllBooks();
+    List<BooksEntity> findAllBooks();
 
     /**
      * 获取指定用户
      * @return
      */
-    List<UsersEntity> findUserBooks();
+    List<BooksEntity> findUserBooks();
 
     /**
      * 更新图书状态

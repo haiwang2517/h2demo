@@ -1,30 +1,37 @@
 package com.one.demo.service;
 
 import com.one.demo.entity.ApplyEntity;
+import com.one.demo.service.finder.ApplyFinder;
 
+import java.util.List;
+
+/**
+ * 申请服务
+ */
 public interface ApplyService {
 
     /**
-     * 申请
-     * @param applyEntity
+     * 查询申请列表
+     * @param finder
+     * @return
      */
-    void apply(ApplyEntity applyEntity);
+    List<ApplyEntity> findAll(ApplyFinder finder);
 
     /**
-     * 审核
-     * @param applyEntity
+     * 借阅申请、归还申请、延期申请
+     * @param entity
      */
-    void check(ApplyEntity applyEntity);
+    void apply( ApplyEntity entity );
 
     /**
-     * 登记
-     * @param applyEntity
+     * 借阅审核、归还确认、延期确认
+     * @param entity
      */
-    void register(ApplyEntity applyEntity);
-    /**
-     * 查询
-     * @param applyEntity
-     */
-    void findApply(ApplyEntity applyEntity);
+    void checkApply( ApplyEntity entity );
 
+    /**
+     * 领取
+     * @param entity
+     */
+    void getApply( ApplyEntity entity );
 }
