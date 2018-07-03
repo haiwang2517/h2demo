@@ -1,29 +1,35 @@
 package com.one.demo.entity;
 
 import javax.persistence.*;
-import java.math.BigDecimal;
 import java.math.BigInteger;
 
 @Entity
 @Table(name = "BOOKS", schema = "PUBLIC", catalog = "SMALLBOOKS")
 public class BooksEntity {
-    private BigDecimal id;
+    private Long id;
     private String name;
     private String code;
     private String barCode;
     private String author;
     private BigInteger status;
     private String createDate;
-    private BigDecimal lastVersion;
+    private Long lastVersion;
     private String remark;
 
     @Id
-    @Column(name = "ID", nullable = false, precision = 32767)
-    public BigDecimal getId() {
+    @GeneratedValue(strategy = GenerationType.TABLE, generator="book_gen")
+    @TableGenerator(name = "book_gen",
+            table="bk_seq",
+            pkColumnName="seq_name",
+            valueColumnName="value",
+            pkColumnValue="seq_book",
+            allocationSize=1
+    )
+    public Long getId() {
         return id;
     }
 
-    public void setId(BigDecimal id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -89,11 +95,11 @@ public class BooksEntity {
 
     @Basic
     @Column(name = "LAST_VERSION", nullable = false, precision = 32767)
-    public BigDecimal getLastVersion() {
+    public Long getLastVersion() {
         return lastVersion;
     }
 
-    public void setLastVersion(BigDecimal lastVersion) {
+    public void setLastVersion(Long lastVersion) {
         this.lastVersion = lastVersion;
     }
 

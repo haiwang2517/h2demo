@@ -70,3 +70,13 @@ CREATE TABLE IF NOT EXISTS  MESSAGES(
   msg VARCHAR(100),
   create_date VARCHAR(25)
 );
+
+/**
+ * 系统序列表
+ */
+CREATE TABLE IF NOT EXISTS  BK_SEQ(
+  id NUMBER PRIMARY KEY ,
+  seq_name VARCHAR(20),
+  value VARCHAR(100),
+  reamark VARCHAR(50)
+);
