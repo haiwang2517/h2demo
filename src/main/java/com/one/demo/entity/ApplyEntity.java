@@ -1,20 +1,24 @@
 package com.one.demo.entity;
 
+import com.one.demo.utils.DateUtil;
+import com.one.demo.utils.DefaultConfigure;
+
 import javax.persistence.*;
 
 @Entity
 @Table(name = "APPLY", schema = "PUBLIC", catalog = "SMALLBOOKS")
 public class ApplyEntity {
     private Long id;
-    private String applyDate;
-    private String applyReason;
+    private String applyCode;
+    private String createDate;
     private String applyUsername;
+    private String applyReason;
     private Long bookId;
-    private String checkUsername;
-    private Long status;
-    private Long useCycle;
-    private String useDate;
-    private String useUsername;
+    private Integer borrowCycle;
+    private String startDate;
+    private String backDate;
+    private Integer lazyNum;
+    private Integer status;
 
     @Id
     @GeneratedValue(strategy = GenerationType.TABLE, generator="apply_gen")
@@ -34,23 +38,23 @@ public class ApplyEntity {
     }
 
     @Basic
-    @Column(name = "APPLY_DATE", nullable = true, length = 25)
-    public String getApplyDate() {
-        return applyDate;
+    @Column(name = "APPLY_CODE", nullable = true, length = 30)
+    public String getApplyCode() {
+        return applyCode;
     }
 
-    public void setApplyDate(String applyDate) {
-        this.applyDate = applyDate;
+    public void setApplyCode(String applyCode) {
+        this.applyCode = applyCode;
     }
 
     @Basic
-    @Column(name = "APPLY_REASON", nullable = true, length = 200)
-    public String getApplyReason() {
-        return applyReason;
+    @Column(name = "CREATE_DATE", nullable = true, length = 25)
+    public String getCreateDate() {
+        return createDate;
     }
 
-    public void setApplyReason(String applyReason) {
-        this.applyReason = applyReason;
+    public void setCreateDate(String createDate) {
+        this.createDate = createDate;
     }
 
     @Basic
@@ -64,7 +68,17 @@ public class ApplyEntity {
     }
 
     @Basic
-    @Column(name = "BOOK_ID", nullable = true, precision = 0)
+    @Column(name = "APPLY_REASON", nullable = true, length = 200)
+    public String getApplyReason() {
+        return applyReason;
+    }
+
+    public void setApplyReason(String applyReason) {
+        this.applyReason = applyReason;
+    }
+
+    @Basic
+    @Column(name = "BOOK_ID", nullable = true, precision = 32767)
     public Long getBookId() {
         return bookId;
     }
@@ -74,54 +88,109 @@ public class ApplyEntity {
     }
 
     @Basic
-    @Column(name = "CHECK_USERNAME", nullable = true, length = 100)
-    public String getCheckUsername() {
-        return checkUsername;
+    @Column(name = "BORROW_CYCLE", nullable = true, precision = 32767)
+    public Integer getBorrowCycle() {
+        return borrowCycle;
     }
 
-    public void setCheckUsername(String checkUsername) {
-        this.checkUsername = checkUsername;
+    public void setBorrowCycle(Integer borrowCycle) {
+        this.borrowCycle = borrowCycle;
     }
 
     @Basic
-    @Column(name = "STATUS", nullable = true, precision = 0)
-    public Long getStatus() {
+    @Column(name = "START_DATE", nullable = true, length = 25)
+    public String getStartDate() {
+        return startDate;
+    }
+
+    public void setStartDate(String startDate) {
+        this.startDate = startDate;
+    }
+
+    @Basic
+    @Column(name = "BACK_DATE", nullable = true, length = 25)
+    public String getBackDate() {
+        return backDate;
+    }
+
+    public void setBackDate(String backDate) {
+        this.backDate = backDate;
+    }
+
+    @Basic
+    @Column(name = "LAZY_NUM", nullable = true, precision = 32767)
+    public Integer getLazyNum() {
+        return lazyNum;
+    }
+
+    public void setLazyNum(Integer lazyNum) {
+        this.lazyNum = lazyNum;
+    }
+
+    @Basic
+    @Column(name = "STATUS", nullable = true, precision = 32767)
+    public Integer getStatus() {
         return status;
     }
 
-    public void setStatus(Long status) {
+    public void setStatus(Integer status) {
         this.status = status;
     }
 
-    @Basic
-    @Column(name = "USE_CYCLE", nullable = true, precision = 0)
-    public Long getUseCycle() {
-        return useCycle;
+    /**
+     * 借阅申请
+     */
+    public void borrowInit(){
+        this.createDate = DateUtil.getNow();
+        this.lazyNum = 0;
+        this.borrowCycle = 0 ;
+        this.status = DefaultConfigure.APPLY_STATUS_BORROW_APPLY;
+    }
+    public void borrowStayPull(){
+        this.startDate = DateUtil.getNow();
+        this.borrowCycle = DefaultConfigure.APPLY_CYCLE;
+        this.status=DefaultConfigure.APPLY_STATUS_BORROW_STAY_PULL;
+    }
+    public void borrowFinishPull(){
+        this.status= DefaultConfigure.APPLY_STATUS_BORROW_FINISH_PULL;
+    }
+    public void borrowCancel(){
+        this.applyReason = "取消申请";
+        this.status = DefaultConfigure.APPLY_STATUS_BORROW_CANCEL_APPLY;
+    }
+    public boolean finishPull(){
+        return this.status == DefaultConfigure.APPLY_STATUS_BORROW_FINISH_PULL;
     }
 
-    public void setUseCycle(Long useCycle) {
-        this.useCycle = useCycle;
+    public boolean finishPullOrLazyOrCancel(){
+        return this.status == DefaultConfigure.APPLY_STATUS_BORROW_FINISH_PULL ||
+                    this.status == DefaultConfigure.APPLY_STATUS_LAZY_FINISH ||
+                    this.status == DefaultConfigure.APPLY_STATUS_LAZY_CANCEL;
     }
 
-    @Basic
-    @Column(name = "USE_DATE", nullable = true, length = 25)
-    public String getUseDate() {
-        return useDate;
+    public void lazyInit(){
+        this.status = DefaultConfigure.APPLY_STATUS_LAZY_APPLY;
+    }
+    public void lazyFinish(){
+        this.status = DefaultConfigure.APPLY_STATUS_LAZY_FINISH;
+        this.lazyNum = this.lazyNum++;
+        this.borrowCycle += DefaultConfigure.APPLY_CYCLE;
+    }
+    public void lazyCancel(){
+        this.status =DefaultConfigure.APPLY_STATUS_LAZY_CANCEL;
+    }
+    public void backInit(){
+        this.status = DefaultConfigure.APPLY_STATUS_BACK_APPLY;
+    }
+    public void backFinish(){
+        this.status = DefaultConfigure.APPLY_STATUS_BACK_FINISH;
+        this.backDate = DateUtil.getNow();
+    }
+    public void backCancel(){
+        this.status = DefaultConfigure.APPLY_STATUS_BACK_CANCEL;
     }
 
-    public void setUseDate(String useDate) {
-        this.useDate = useDate;
-    }
 
-    @Basic
-    @Column(name = "USE_USERNAME", nullable = true, length = 100)
-    public String getUseUsername() {
-        return useUsername;
-    }
-
-    public void setUseUsername(String useUsername) {
-        this.useUsername = useUsername;
-    }
 
     @Override
     public boolean equals(Object o) {
@@ -131,17 +200,17 @@ public class ApplyEntity {
         ApplyEntity that = (ApplyEntity) o;
 
         if (id != null ? !id.equals(that.id) : that.id != null) return false;
-        if (applyDate != null ? !applyDate.equals(that.applyDate) : that.applyDate != null) return false;
-        if (applyReason != null ? !applyReason.equals(that.applyReason) : that.applyReason != null) return false;
+        if (applyCode != null ? !applyCode.equals(that.applyCode) : that.applyCode != null) return false;
+        if (createDate != null ? !createDate.equals(that.createDate) : that.createDate != null) return false;
         if (applyUsername != null ? !applyUsername.equals(that.applyUsername) : that.applyUsername != null)
             return false;
+        if (applyReason != null ? !applyReason.equals(that.applyReason) : that.applyReason != null) return false;
         if (bookId != null ? !bookId.equals(that.bookId) : that.bookId != null) return false;
-        if (checkUsername != null ? !checkUsername.equals(that.checkUsername) : that.checkUsername != null)
-            return false;
+        if (borrowCycle != null ? !borrowCycle.equals(that.borrowCycle) : that.borrowCycle != null) return false;
+        if (startDate != null ? !startDate.equals(that.startDate) : that.startDate != null) return false;
+        if (backDate != null ? !backDate.equals(that.backDate) : that.backDate != null) return false;
+        if (lazyNum != null ? !lazyNum.equals(that.lazyNum) : that.lazyNum != null) return false;
         if (status != null ? !status.equals(that.status) : that.status != null) return false;
-        if (useCycle != null ? !useCycle.equals(that.useCycle) : that.useCycle != null) return false;
-        if (useDate != null ? !useDate.equals(that.useDate) : that.useDate != null) return false;
-        if (useUsername != null ? !useUsername.equals(that.useUsername) : that.useUsername != null) return false;
 
         return true;
     }
@@ -149,15 +218,16 @@ public class ApplyEntity {
     @Override
     public int hashCode() {
         int result = id != null ? id.hashCode() : 0;
-        result = 31 * result + (applyDate != null ? applyDate.hashCode() : 0);
-        result = 31 * result + (applyReason != null ? applyReason.hashCode() : 0);
+        result = 31 * result + (applyCode != null ? applyCode.hashCode() : 0);
+        result = 31 * result + (createDate != null ? createDate.hashCode() : 0);
         result = 31 * result + (applyUsername != null ? applyUsername.hashCode() : 0);
+        result = 31 * result + (applyReason != null ? applyReason.hashCode() : 0);
         result = 31 * result + (bookId != null ? bookId.hashCode() : 0);
-        result = 31 * result + (checkUsername != null ? checkUsername.hashCode() : 0);
+        result = 31 * result + (borrowCycle != null ? borrowCycle.hashCode() : 0);
+        result = 31 * result + (startDate != null ? startDate.hashCode() : 0);
+        result = 31 * result + (backDate != null ? backDate.hashCode() : 0);
+        result = 31 * result + (lazyNum != null ? lazyNum.hashCode() : 0);
         result = 31 * result + (status != null ? status.hashCode() : 0);
-        result = 31 * result + (useCycle != null ? useCycle.hashCode() : 0);
-        result = 31 * result + (useDate != null ? useDate.hashCode() : 0);
-        result = 31 * result + (useUsername != null ? useUsername.hashCode() : 0);
         return result;
     }
 }

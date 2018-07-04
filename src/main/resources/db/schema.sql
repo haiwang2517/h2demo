@@ -15,7 +15,8 @@ CREATE TABLE IF NOT EXISTS BOOKS (
 );
 
 /***
-  * 申请图书流程主表, status = {0:申请中; 1:已结束;}
+  * 申请图书流程主表,
+  * status = {0:申请中;1:待领取;2:已领取;3:取消申请'4:申请延期;5:已延期;6: 取消延期申请; 7:申请归还;8:已归还;9:取消归还申请}
   */
 CREATE TABLE IF NOT EXISTS  APPLY (
   id NUMBER PRIMARY KEY ,
@@ -24,15 +25,17 @@ CREATE TABLE IF NOT EXISTS  APPLY (
   apply_username VARCHAR (100),
   apply_reason VARCHAR (200),
   book_id NUMBER ,
+  borrow_cycle NUMBER,
+  start_date VARCHAR(25),
+  back_date VARCHAR(25),
   lazy_num NUMBER DEFAULT 0,
   status NUMBER
 );
 
 /**
  * use_date 领用日期; use_username:领用人; use_cycle: 使用周期
- * status :{0:待审核;1审核通过;2:审核退回}
+ * status :{0:待审核;1审核通过;2:审核退回;3:已取消}
  * type: {0:申请图书; 1:延期图书; 2;归还图书}
- * ref_task_id : 关联ID
  */
 CREATE TABLE IF NOT EXISTS  APPLY_TASK (
   id NUMBER PRIMARY KEY ,
@@ -44,7 +47,7 @@ CREATE TABLE IF NOT EXISTS  APPLY_TASK (
   use_username VARCHAR (100),
   use_cycle NUMBER ,
   check_username VARCHAR (100),
-  ref_task_id NUMBER,
+  check_date VARCHAR(25),
   type NUMBER,
   status NUMBER
 );

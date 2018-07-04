@@ -18,20 +18,21 @@ public interface ApplyService {
     List<ApplyEntity> findAll(ApplyFinder finder);
 
     /**
-     * 借阅申请、归还申请、延期申请
+     * 借阅申请
      * @param entity
      */
-    void apply( ApplyEntity entity );
+    void borrowApply( ApplyEntity entity );
 
     /**
-     * 借阅审核、归还确认、延期确认
+     * 延期申请
      * @param entity
      */
-    void checkApply( ApplyEntity entity );
+    void lazyApply( ApplyEntity entity );
 
     /**
-     * 领取
+     * 归还申请
      * @param entity
      */
-    void getApply( ApplyEntity entity );
+    void backApply( ApplyEntity entity );
+
 }

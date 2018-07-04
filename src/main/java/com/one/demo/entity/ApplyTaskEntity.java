@@ -12,11 +12,11 @@ public class ApplyTaskEntity {
     private String applyReason;
     private String useDate;
     private String useUsername;
-    private Long useCycle;
+    private Integer useCycle;
     private String checkUsername;
-    private Long refTaskId;
-    private Long type;
-    private Long status;
+    private String checkDate;
+    private Integer type;
+    private Integer status;
 
     @Id
     @GeneratedValue(strategy = GenerationType.TABLE, generator="apply_task_gen")
@@ -97,11 +97,11 @@ public class ApplyTaskEntity {
 
     @Basic
     @Column(name = "USE_CYCLE", nullable = true, precision = 32767)
-    public Long getUseCycle() {
+    public Integer getUseCycle() {
         return useCycle;
     }
 
-    public void setUseCycle(Long useCycle) {
+    public void setUseCycle(Integer useCycle) {
         this.useCycle = useCycle;
     }
 
@@ -116,32 +116,32 @@ public class ApplyTaskEntity {
     }
 
     @Basic
-    @Column(name = "REF_TASK_ID", nullable = true, precision = 32767)
-    public Long getRefTaskId() {
-        return refTaskId;
+    @Column(name = "CHECK_DATE", nullable = true, length = 25)
+    public String getCheckDate() {
+        return checkDate;
     }
 
-    public void setRefTaskId(Long refTaskId) {
-        this.refTaskId = refTaskId;
+    public void setCheckDate(String checkDate) {
+        this.checkDate = checkDate;
     }
 
     @Basic
     @Column(name = "TYPE", nullable = true, precision = 32767)
-    public Long getType() {
+    public Integer getType() {
         return type;
     }
 
-    public void setType(Long type) {
+    public void setType(Integer type) {
         this.type = type;
     }
 
     @Basic
     @Column(name = "STATUS", nullable = true, precision = 32767)
-    public Long getStatus() {
+    public Integer getStatus() {
         return status;
     }
 
-    public void setStatus(Long status) {
+    public void setStatus(Integer status) {
         this.status = status;
     }
 
@@ -163,7 +163,7 @@ public class ApplyTaskEntity {
         if (useCycle != null ? !useCycle.equals(that.useCycle) : that.useCycle != null) return false;
         if (checkUsername != null ? !checkUsername.equals(that.checkUsername) : that.checkUsername != null)
             return false;
-        if (refTaskId != null ? !refTaskId.equals(that.refTaskId) : that.refTaskId != null) return false;
+        if (checkDate != null ? !checkDate.equals(that.checkDate) : that.checkDate != null) return false;
         if (type != null ? !type.equals(that.type) : that.type != null) return false;
         if (status != null ? !status.equals(that.status) : that.status != null) return false;
 
@@ -181,7 +181,7 @@ public class ApplyTaskEntity {
         result = 31 * result + (useUsername != null ? useUsername.hashCode() : 0);
         result = 31 * result + (useCycle != null ? useCycle.hashCode() : 0);
         result = 31 * result + (checkUsername != null ? checkUsername.hashCode() : 0);
-        result = 31 * result + (refTaskId != null ? refTaskId.hashCode() : 0);
+        result = 31 * result + (checkDate != null ? checkDate.hashCode() : 0);
         result = 31 * result + (type != null ? type.hashCode() : 0);
         result = 31 * result + (status != null ? status.hashCode() : 0);
         return result;
