@@ -4,7 +4,9 @@ import com.one.demo.dao.UsersDao;
 import com.one.demo.entity.UsersEntity;
 import com.one.demo.service.UsersService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
+@Service
 public class UsersServiceImpl implements UsersService {
 
     @Autowired

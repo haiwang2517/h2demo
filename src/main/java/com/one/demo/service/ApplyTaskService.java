@@ -12,8 +12,9 @@ public interface ApplyTaskService {
     /**
      * 审核申请
      * @param taskEntity
+     * @param actionType  1 审核通过 0 : 审核不通过
      */
-    void checkApply(ApplyTaskEntity taskEntity);
+    void checkApply(ApplyTaskEntity taskEntity, int actionType);
 
     /**
      * 取消申请

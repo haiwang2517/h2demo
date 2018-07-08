@@ -1,7 +1,7 @@
 package com.one.demo.controller;
 
 import com.one.demo.service.BooksService;
-import com.one.demo.utils.ViewResult;
+import com.one.demo.controller.dto.ViewResult;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

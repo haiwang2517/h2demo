@@ -19,6 +19,7 @@ public class ApplyEntity {
     private String backDate;
     private Integer lazyNum;
     private Integer status;
+    private Integer overStatus;
 
     @Id
     @GeneratedValue(strategy = GenerationType.TABLE, generator="apply_gen")
@@ -137,6 +138,15 @@ public class ApplyEntity {
         this.status = status;
     }
 
+    @Basic
+    @Column(name = "OVER_STATUS", precision = 32767)
+    public Integer getOverStatus() {
+        return overStatus;
+    }
+    public void setOverStatus(Integer overStatus) {
+        this.overStatus = overStatus;
+    }
+    //
     /**
      * 借阅申请
      */
@@ -157,6 +167,7 @@ public class ApplyEntity {
     public void borrowCancel(){
         this.applyReason = "取消申请";
         this.status = DefaultConfigure.APPLY_STATUS_BORROW_CANCEL_APPLY;
+        this.overStatus = DefaultConfigure.APPLY_OVER_STATUS;
     }
     public boolean finishPull(){
         return this.status == DefaultConfigure.APPLY_STATUS_BORROW_FINISH_PULL;
@@ -184,6 +195,7 @@ public class ApplyEntity {
     }
     public void backFinish(){
         this.status = DefaultConfigure.APPLY_STATUS_BACK_FINISH;
+        this.overStatus = DefaultConfigure.APPLY_OVER_STATUS;
         this.backDate = DateUtil.getNow();
     }
     public void backCancel(){

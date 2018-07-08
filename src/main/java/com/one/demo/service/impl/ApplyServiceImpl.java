@@ -8,11 +8,13 @@ import com.one.demo.service.ApplyService;
 import com.one.demo.service.finder.ApplyFinder;
 import com.one.demo.utils.DefaultConfigure;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
 
+@Service
 public class ApplyServiceImpl implements ApplyService {
 
     @Autowired

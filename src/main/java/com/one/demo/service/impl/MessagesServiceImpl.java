@@ -5,7 +5,9 @@ import com.one.demo.entity.ApplyTaskEntity;
 import com.one.demo.entity.MessagesEntity;
 import com.one.demo.service.MessagesService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
+@Service
 public class MessagesServiceImpl implements MessagesService {
 
     @Autowired

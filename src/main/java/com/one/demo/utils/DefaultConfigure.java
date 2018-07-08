@@ -17,14 +17,17 @@ public class DefaultConfigure {
     public static final int APPLY_STATUS_BACK_FINISH = 8;
     public static final int APPLY_STATUS_BACK_CANCEL = 9;
 
+    public static final int APPLY_OVER_STATUS = 1; //流程结束
+
     public static final int  APPLY_CYCLE = 2;  //2天
 
 
-//    * status :{0:待审核;1审核通过;2:审核退回;3:已取消}
+//    * status :{0:待审核;1审核通过;2:审核退回;3:已取消; 4:已领取}
     public static final int TASK_STATUS_CHECK = 0;
     public static final int TASK_STATUS_SUCCESS = 1;
     public static final int TASK_STATUS_BACK = 2;
     public static final int TASK_STATUS_CANCEL = 3;
+    public static final int TASK_STATUS_PULL_SUCCESS = 4;
 
 // * type: {0:申请图书; 1:延期图书; 2;归还图书}
     public static final int TASK_TYPE_APPLY = 0;

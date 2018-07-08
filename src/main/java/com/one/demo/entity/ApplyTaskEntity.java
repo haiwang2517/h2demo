@@ -1,5 +1,8 @@
 package com.one.demo.entity;
 
+import com.one.demo.utils.DateUtil;
+import com.one.demo.utils.DefaultConfigure;
+
 import javax.persistence.*;
 
 @Entity
@@ -143,6 +146,47 @@ public class ApplyTaskEntity {
 
     public void setStatus(Integer status) {
         this.status = status;
+    }
+
+    public boolean borrowCheckStatus(){
+        return this.type == DefaultConfigure.TASK_TYPE_APPLY &&
+                    this.status == DefaultConfigure.TASK_STATUS_CHECK;
+    }
+    public void checkSuccess(String checkUsername){
+        this.status =DefaultConfigure.TASK_STATUS_SUCCESS;
+        this.checkUsername = checkUsername;
+        this.checkDate = DateUtil.getNow();
+        this.useCycle = DefaultConfigure.APPLY_CYCLE;
+    }
+    public void checkFault(String checkUsername, String reason){
+        this.status =DefaultConfigure.TASK_STATUS_BACK;
+        this.checkUsername = checkUsername;
+        this.checkDate = DateUtil.getNow();
+        this.applyReason = reason;
+    }
+    public void checkCancel(String checkUsername, String reason){
+        this.status =DefaultConfigure.TASK_STATUS_CANCEL;
+        this.checkUsername = checkUsername;
+        this.checkDate = DateUtil.getNow();
+        this.applyReason = reason;
+    }
+    public boolean borrowPullStatus(){
+        return this.type == DefaultConfigure.TASK_TYPE_APPLY &&
+                this.status == DefaultConfigure.TASK_STATUS_SUCCESS;
+    }
+    public void borrowPull(){
+        this.status =DefaultConfigure.TASK_STATUS_PULL_SUCCESS;
+        this.useDate = DateUtil.getNow();
+    }
+
+    public boolean lazyCheckStatus(){
+        return this.type == DefaultConfigure.TASK_TYPE_LAZY &&
+                this.status == DefaultConfigure.TASK_STATUS_CHECK;
+    }
+
+    public boolean backCheckStatus(){
+        return this.type == DefaultConfigure.TASK_TYPE_BACK &&
+                this.status == DefaultConfigure.TASK_STATUS_CHECK;
     }
 
     @Override

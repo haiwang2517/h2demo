@@ -29,7 +29,8 @@ CREATE TABLE IF NOT EXISTS  APPLY (
   start_date VARCHAR(25),
   back_date VARCHAR(25),
   lazy_num NUMBER DEFAULT 0,
-  status NUMBER
+  status NUMBER,
+  over_status NUMBER DEFAULT 0
 );
 
 /**
